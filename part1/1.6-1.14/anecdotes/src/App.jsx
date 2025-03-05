@@ -14,18 +14,18 @@ const anecdotes = [
 ]
 
 function App() {
-    const [selected, setSelected] = useState(generateRandomQuote()[0])
+    const [selected, setSelected] = useState(anecdotes[generateRandomQuote()])
     const [vote, setVote] = useState(Array(anecdotes.length).fill(0))
-    let indexRef = useRef(0)
+    let indexRef = useRef(0) // used React ref just for practice, can be replaced with useState variable
 
     function generateRandomQuote() {
         const anecdotesIndex = Math.floor(Math.random() * anecdotes.length)
-        return [anecdotes[anecdotesIndex], anecdotesIndex]
+        return anecdotesIndex
     }
 
     function handleClick() {
-        const [quote, anecdotesIndex] = generateRandomQuote()
-        setSelected(quote)
+        const anecdotesIndex = generateRandomQuote()
+        setSelected(anecdotes[anecdotesIndex])
         indexRef.current = anecdotesIndex
         // console.log(index)
     }
@@ -40,6 +40,9 @@ function App() {
 
     const maxVotes = Math.max(...vote)
     const val = vote.indexOf(maxVotes)
+    console.log(vote)
+
+
     return (
 
         <>
@@ -47,10 +50,9 @@ function App() {
                 <h1>Anecdote of the day</h1>
                 <p>{selected}</p>
                 <p>has {vote[indexRef.current]} votes</p>
-                {console.log(vote)}
             </div>
-            <Button onClick={() => handleClick()} btnName={"nextAnecdotes"} />
-            <Button onClick={() => handleVote()} btnName={"vote"} />
+            <Button onClick={handleClick} btnName={"nextAnecdotes"} />
+            <Button onClick={handleVote} btnName={"vote"} />
               <div>
                 <h1>Ancedote with the most votes</h1>
                 <p>{anecdotes[val]}</p>
