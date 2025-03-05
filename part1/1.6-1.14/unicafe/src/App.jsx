@@ -9,12 +9,25 @@ export default function App() {
     const [bad, setBad] = useState(0)
 
     const stateDisplay = (
-        <div>
-            <h1>Number of feedbacks</h1>
-            <p>Good: {good}</p>
-            <p>Neutral: {neutral}</p>
-            <p>Bad: {bad}</p>
-        </div>
+        <table>
+            <tbody>
+                <tr>
+                    <th scope="row" align="left">Good</th>
+                    <td>:</td>
+                    <td>{good}</td>
+                </tr>
+                <tr>
+                    <th scope="row" align="left">Neutral</th>
+                    <td>:</td>
+                    <td>{neutral}</td>
+                </tr>
+                <tr>
+                    <th scope="row" align="left">Bad</th>
+                    <td>:</td>
+                    <td>{bad}</td>
+                </tr>
+            </tbody>
+        </table>
     )
 
     function handleClick(actionType) {
@@ -40,9 +53,14 @@ export default function App() {
                 feedbackType={["good", "neutral", "bad"]}
                 onClick={handleClick}
             />
+            <h1>Number of feedbacks</h1>
             {stateDisplay}
             <h1>Statistics</h1>
-            {good || neutral || bad ?  <Stats good={good} neutral={neutral} bad={bad} /> : "No feedback given"}
+            {good || neutral || bad ? (
+                <Stats good={good} neutral={neutral} bad={bad} />
+            ) : (
+                "No feedback given"
+            )}
         </>
     )
 }

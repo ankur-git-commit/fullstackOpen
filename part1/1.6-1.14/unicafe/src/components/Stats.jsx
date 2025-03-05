@@ -4,9 +4,27 @@ export default function Stats({ good, neutral, bad}){
     const posFeedback = (good/totalFeedbacks) * 100
     return (
         <>
-            <p>All: {totalFeedbacks}</p>
-            {totalFeedbacks && <p>Average: {averageScore}</p>}
-            <p>Positive feedback: {posFeedback}</p>
+            <table>
+                <tbody>
+                    <tr>
+                        <th scope="row" align="left">All</th>
+                        <td>:</td>
+                        <td>{totalFeedbacks}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" align="left">Average </th>
+                        <td>:</td>
+                        <td>{averageScore}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" align="left">Positive</th>
+                        <td>:</td>
+                        <td>{posFeedback}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
         </>
     )
 }
