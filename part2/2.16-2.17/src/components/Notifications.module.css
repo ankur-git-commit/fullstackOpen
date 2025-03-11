@@ -1,0 +1,22 @@
+.wrapperAddPerson {
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: yellowgreen;
+    margin: 10px;
+}
+
+.wrapperDeletePerson {
+    background-color: brown;
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 4px;
+    margin: 10px;
+}
+
+
+.message {
+    font-weight: bold;
+}

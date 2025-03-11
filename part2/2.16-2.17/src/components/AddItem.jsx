@@ -1,4 +1,10 @@
-export default function AddItem({ addPerson, handleName, newName, newNumber, setNewNumber }) {
+export default function AddItem({
+    addPerson,
+    handleName,
+    newName,
+    newNumber,
+    setNewNumber,
+}) {
     return (
         <form onSubmit={addPerson}>
             <label htmlFor="name-field">name: </label>
