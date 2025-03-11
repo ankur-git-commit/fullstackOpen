@@ -16,9 +16,16 @@ function App() {
     const [searchTerm, setSearchTerm] = useState("")
 
     // console.log(modules.getPerson().then(response => response.data))
+    // useEffect(() => {
+    //     modules.getPerson().then((response) => {
+    //         console.log(response)
+    //         const data = response.data
+    //         setPersons(data)
+    //     })
+    // }, [])
     useEffect(() => {
         modules.getPerson().then((data) => {
-            console.log(data)
+            // console.log(data)
             setPersons(data)
         })
     }, [])
@@ -35,16 +42,13 @@ function App() {
         event.preventDefault()
         const trimmedName = newName.trim()
 
-        if (
-            person.some(
-                (person) =>
-                    person.name === trimmedName || person.number === newNumber
-            )
-        ) {
-            return alert(
-                `${trimmedName} or number already exists in the phonebook`
-            )
-        }
+        const existingPerson = person.some(
+            (person) =>
+                person.name === trimmedName || person.number === newNumber)
+            ? person.find((per) => per.name === trimmedName || per.number === newNumber)
+            : false
+
+        if (existingPerson) return updatePerson(existingPerson, trimmedName)
 
         const personObject = {
             name: trimmedName,
@@ -60,15 +64,48 @@ function App() {
         })
     }
 
-    function removePerson(id){
-        if (window.confirm(`would you like to delete the person with id ${id}?`)){
-            modules.remove(id).then(response => {
-                setPersons(prevPersons => prevPersons.filter(p => p.id !== id))
-            })
-            .catch(error => console.log(error))
+    function updatePerson(existingPerson, trimmedName) {
+        if (existingPerson) {
+            const confirmation = confirm(
+                `${trimmedName} - ${newNumber} already exists in the phonebook`
+            )
+            if (confirmation) {
+                const updatedValues = {
+                    id: existingPerson.id,
+                    name: newName.trim(),
+                    number: newNumber,
+                }
+                // console.log(updatedValues)
+
+                return modules
+                    .update(updatedValues.id, updatedValues)
+                    .then((response) => {
+                        console.log(response)
+                        setPersons(
+                            person.map((p) =>
+                                p.id === existingPerson.id ? updatedValues : p
+                            )
+                        )
+                        setNewName("")
+                        setNewNumber("")
+                    })
+            } else return
         }
+    }
 
-
+    function removePerson(id) {
+        if (
+            window.confirm(`would you like to delete the person with id ${id}?`)
+        ) {
+            modules
+                .remove(id)
+                .then((response) => {
+                    setPersons((prevPersons) =>
+                        prevPersons.filter((p) => p.id !== id)
+                    )
+                })
+                .catch((error) => console.log(error))
+        }
     }
 
     const filteredContent = searchTerm
@@ -95,7 +132,7 @@ function App() {
 
             <Header headerName={"Number"} />
 
-            <Numbers person={filteredContent} removePerson={removePerson}/>
+            <Numbers person={filteredContent} removePerson={removePerson} />
         </>
     )
 }
